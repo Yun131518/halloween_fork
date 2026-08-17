@@ -79,9 +79,9 @@
     <!-- Overlay de cookies kawaii -->
     <div id="overlay" class="overlay">
         <div class="overlay-body">
-            <p class="overlay-title">¿Quieres celebrar Halloween conmigo?</p>
-            <button id="accept-button" class="overlay-button">🎃 Si</button>
-            <button id="decline-button" class="overlay-button">🕸 No</button>
+            <p class="overlay-title">?이 영상 재생?</p>
+            <button id="accept-button" class="overlay-button">🎃 예</button>
+            <button id="decline-button" class="overlay-button">🕸 아니</button>
         </div>
     </div>
 
@@ -98,14 +98,36 @@
         const acceptButton = document.getElementById("accept-button");
         const declineButton = document.getElementById("decline-button");
 
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        window.addEventListener("DOMContentLoaded", async () => {
+            if (localStorage.getItem("isload") === "True") {
+                await sleep(1000);   // 여기서 실제로 3초 대기
+                acceptButton.click();
+            }
+        });
+
         function startVideo() {
             overlay.style.display = 'none';  // Oculta el overlay
             scare.style.display = 'block';   // Muestra el video
             video.play();                    // Reproduce el video
         }
+        
+        function rememberChoice(choice) {
+            localStorage.setItem("isload", choice); // "accepted" or "declined"
+        }
 
-        acceptButton.addEventListener("click", startVideo);
-        declineButton.addEventListener("click", startVideo);
+        acceptButton.addEventListener("click", () => {
+            startVideo();
+            rememberChoice("True");
+        });
+
+        declineButton.addEventListener("click", () => {
+            startVideo();
+            rememberChoice("True");
+        });
     </script>
 
 </body>
